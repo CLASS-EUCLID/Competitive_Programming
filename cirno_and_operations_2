@@ -1,0 +1,67 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+unordered_map<string, long long> memo;  // Memoization
+
+long long int m;
+vector<long long int> v;
+// test
+string encodeVector() {
+    string s = "";
+    for (int num : v) s += to_string(num) + ",";
+    return s;
+}
+
+void bt() {
+    long long int sum = accumulate(v.begin(), v.end(), 0LL);
+    if (sum > m) m = sum;
+
+    if (v.size() == 1) return;
+
+    string state = encodeVector();
+    if (memo.count(state)) return;  // Already computed this state
+    memo[state] = m;
+
+    // First transformation
+    vector<long long int> original_v = v;
+    for (int i = 0; i < v.size() - 1; i++) {
+        v[i] = v[i + 1] - v[i];
+    }
+    v.pop_back();
+    bt();
+    v = original_v;  // Restore
+
+    // Second transformation (Reverse before modifying)
+    reverse(v.begin(), v.end());
+    for (int i = 0; i < v.size() - 1; i++) {
+        v[i] = v[i + 1] - v[i];
+    }
+    v.pop_back();
+    bt();
+    v = original_v;  // Restore
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        m = 0;
+        v.clear();
+        memo.clear();  // Clear memoization for each test case
+
+        for (int i = 0; i < n; i++) {
+            int h;
+            cin >> h;
+            v.push_back(h);
+        }
+
+        m = accumulate(v.begin(), v.end(), 0LL);  // Initial max sum
+        bt();
+        cout << m << "\n";
+    }
+}
