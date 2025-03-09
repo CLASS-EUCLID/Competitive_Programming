@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+bool isSquare(uint64_t x) {
+    if (x == 0)
+        return false;
+    long double root = sqrtl((long double)x);
+    uint64_t t = (uint64_t)root;
+    if ((t + 1) * (t + 1) <= x)
+        t++;
+    while (t * t > x && t > 0)
+        t--;
+
+    return (t * t == x);
+}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int t;
+    cin >> t;
+    int x;
+    unsigned long long int p=0,s=0;
+    while(t--)
+    {
+        vector<unsigned long long int> v1;
+        int n,m;
+        p = 0;
+        s = 0;
+        cin >> n >> m;
+        for(int i = 0;i<n;i++)
+        {
+            s = 0;
+            for(int j =0;j<m;j++)
+            {
+                cin >> x;
+                s+=x;
+                p+=s;
+            }
+            v1.push_back(s);
+        }
+        sort(v1.begin(),v1.end());
+        for(int i = 0;i<n;i++)
+        {
+            p = p + v1[i]*(i)*m;
+        }
+        cout << p << '\n';
+    }
+
+}
