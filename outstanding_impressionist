@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        vector<pair<int, int>> intervals(n);
+        vector<int> all_anomalies;
+        unordered_map<int, int> freq;
+
+        for (int i = 0; i < n; ++i) {
+            int l, h;
+            cin >> l >> h;
+            intervals[i] = {l, h};
+            if (l == h) {
+                all_anomalies.push_back(l);
+                freq[l]++;
+            }
+        }
+
+        vector<int> unique_anomalies;
+        for (auto& entry : freq) {
+            unique_anomalies.push_back(entry.first);
+        }
+        sort(unique_anomalies.begin(), unique_anomalies.end());
+
+        for (int i = 0; i < n; ++i) {
+            int L = intervals[i].first, H = intervals[i].second;
+            if (L == H) {
+                if (freq[L] == 1) {
+                    cout << '1';
+                } else {
+                    cout << '0';
+                }
+            } else {
+                auto left = lower_bound(unique_anomalies.begin(), unique_anomalies.end(), L);
+                auto right = upper_bound(unique_anomalies.begin(), unique_anomalies.end(), H);
+                int count = right - left;
+                if (H - L + 1 > count) {
+                    cout << '1';
+                } else {
+                    cout << '0';
+                }
+            }
+        }
+        cout << "\n";
+    }
+    return 0;
+}
