@@ -1,0 +1,96 @@
+#include <bits/stdc++.h>
+// 17.03.25
+using namespace std;
+
+/*
+1. k >= 2
+    i. daca max este in centru gasim k maxime cel putin unu in stanga si unu in dreapta
+    ii. daca max este la margine gasim k maxime printre care nu se numara si maximul absolut
+2. k == 1
+    i. daca max este in centru il alegem si dupa plusam maximul dintre far right si far left
+    ii. daca max este la margine gasim alt maxim pentru ca la max putem ajunge oricum
+*/
+
+/*
+4
+3 1 1 7 1
+3 1 7 1 1
+5 3 1 2 7 3 1
+5 3 7 1 1 1 1
+*/
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        int n,k;
+        cin >> n >> k;
+        vector<int> v(n,0);
+        int mPos=0,mVal=0;
+        for(int i = 0;i<n;i++)
+        {
+            cin >> v[i];
+            if(v[i] > mVal)
+            {
+                mVal = v[i];
+                mPos = i;
+            }
+        }
+        if( k == 1 )
+        {
+            if(mPos > 0 && mPos < n-1)
+            {
+                cout << mVal + max(v[0],v[n-1]) << '\n';
+            }
+            else
+            {
+                int msec = 0;
+                if(mPos == n-1)
+                {
+                    for(int i = 0;i<n-1;i++)
+                    {
+                        if(v[i]>msec)
+                        {
+                            msec=v[i];
+                        }
+                    }
+                }
+                else
+                {
+                    for(int i = 1;i<n;i++)
+                    {
+                        if(v[i]>msec)
+                        {
+                            msec=v[i];
+                        }
+                    }
+                }
+                cout << msec+mVal << '\n';
+            }
+        }
+        else
+        {
+            long long sum = 0;
+            k++;
+                while(k--)
+                {
+                    int mx = 0;
+                    int pos;
+                    for(int i = 0;i<n;i++)
+                    {
+                        if(v[i]>mx)
+                        {
+                            mx = v[i];
+                            pos = i;
+                        }
+                    }
+                    sum += mx;
+                    v[pos] = 0;
+                }
+                cout << sum << '\n';
+        }
+    }
+}
