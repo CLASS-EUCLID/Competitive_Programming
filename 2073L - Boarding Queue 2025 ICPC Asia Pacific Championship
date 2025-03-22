@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main(void)
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n,m,pass,whoami;
+    cin >> n >> m >> pass >> whoami;
+    vector<vector<int>> v(n+2,vector<int>(m+2,0));
+    unordered_set<int> nums;
+    int x,y;
+    for(int i = 1;i<=n;i++)
+    {
+        for(int j = 1;j<=m;j++)
+        {
+            cin >> v[i][j];
+            if(v[i][j] == whoami)
+            {
+                x= i; // <--- if there is bug check here
+                y= j; // <--- if there is bug check here
+            }
+        }
+    }
+    for(int i = whoami;i>0;i--)
+    {
+        int time = whoami - i;
+        if(v[x][y-1] && (v[x][y-1]+time) <= pass)
+            nums.insert(v[x][y-1]+time);
+        if(v[x-1][y] && (v[x-1][y]+time) <= pass)
+            nums.insert(v[x-1][y]+time);
+        if(v[x][y+1] && (v[x][y+1]+time) <= pass)
+            nums.insert(v[x][y+1]+time);
+        if(v[x+1][y] && (v[x+1][y]+time) <= pass)
+            nums.insert(v[x+1][y]+time);
+
+        if(v[x][y-1] == i-1)
+        {
+            y = y - 1;
+        }
+        else if (v[x-1][y] == i-1)
+        {
+            x = x - 1;
+        }
+        else if(v[x][y+1] == i - 1)
+        {
+            y = y + 1;
+        }
+        else
+        {
+            x = x + 1;
+        }
+    }
+    cout << nums.size() << "/" << pass-1;
+
+   /*
+4 5 11 2
+11 0 0 0 0
+10 1 2 0 0
+9 0 3 4 0
+8 7 6 5 0
+*/
+}
