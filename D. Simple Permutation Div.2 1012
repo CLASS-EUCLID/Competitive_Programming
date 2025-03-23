@@ -1,0 +1,76 @@
+#include <bits/stdc++.h>
+// 23.03.25 Number Theory problem saved me
+// got 1270ELO thanks to this contest, placed 1450/~9561
+// very proud to solve this one even though i couldn't do C.
+using namespace std;
+
+bool isPrime(int n) {
+    if (n < 2) return false;
+    if (n == 2 || n == 3) return true;
+    if (n % 2 == 0 || n % 3 == 0) return false;
+    for (int i = 5; i * i <= n; i += 6) {
+        if (n % i == 0 || n % (i + 2) == 0) return false;
+    }
+    return true;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        int n;
+        cin >> n;
+        if (n==2)
+        {
+            cout << "2 1\n";
+        }
+        else if(n == 3)
+        {
+            cout << "2 1 3\n";
+        }
+        else if(n == 4)
+        {
+            cout << "2 1 3 4\n";
+        }
+        else if ( n== 5)
+        {
+            cout << "2 1 3 4 5\n";
+        }
+        else
+        {
+            int myPrime;
+            for(int i = n/2;i<n;i++)
+            {
+                if(isPrime(i))
+                {
+                    myPrime = i;
+                    break;
+                }
+            }
+            int bounce = 1;
+            int dir = 1;
+            while(myPrime <= n && myPrime > 0)
+            {
+                cout << myPrime << " ";
+                if(myPrime + bounce*dir == n)
+                {
+                    break;
+                }
+                myPrime =  myPrime + bounce*dir;
+                bounce++;
+                dir *= -1;
+            }
+            cout << n << " ";
+            for(int i = 1;i<myPrime;i++)
+            {
+                cout << i << " ";
+            }
+            cout << '\n';
+
+        }
+    }
+}
