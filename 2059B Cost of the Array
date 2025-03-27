@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+using namespace std;
+//27.03.25 - we pretend that the answer can either be 1 or 2 for any k < n
+// for k == n we have to see manually
+// k is even !?! why does it matter
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        int n,k;
+        int nonone = -1;
+        int one = -1;
+        cin >> n >> k;
+        int v[n];
+        for(int i = 0;i<n;i++)
+        {
+            cin >> v[i];
+        }
+        if(k != n)
+        {
+            for(int i = 1;i<n;i++)
+            {
+                if(v[i]!=1 && nonone == -1)
+                {
+                    nonone = i;
+                }
+                if(v[i]==1)
+                {
+                    one = i;
+                }
+            }
+            if(one != -1 && nonone == -1)
+            {
+                cout << 2 << '\n';
+                continue;
+            }
+            if(one == -1)
+            {
+                cout << 1 << '\n';
+                continue;
+            }
+            if(one != -1 && n-nonone-1 >= k-2)
+            {
+                cout << 1 << '\n';
+                continue;
+            }
+            cout << 2 << '\n';
+        }
+        else
+        {
+            int last = 0;
+            int outted =0 ;
+            for(int i = 1;i<n;i+=2)
+            {
+                if(v[i]!=last+1)
+                {
+                    cout << last+1 << '\n';
+                    outted = 1;
+                    break;
+                }
+                last+=1;
+            }
+            if(!outted)
+            {
+                cout << last+1 << '\n';
+            }
+        }
+    }
+}
