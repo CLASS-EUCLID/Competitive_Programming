@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>
+using namespace std;
+03.04.25
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        int n,k;
+        long long x;
+        cin >> n >> k >> x;
+        vector<int> v(n);
+        long long wsum = 0;
+        long long sum = 0;
+        int pos = -1;
+        for(auto &x : v){
+            cin >> x;
+            wsum += x;
+        }
+        if(wsum * k < x)
+        {
+            cout << 0 << "\n";
+            continue;
+        }
+        if(wsum < x)
+        {
+            int offset = 0;
+            while(wsum * (x/wsum - offset) >= x)
+            {
+                offset++;
+            }
+            sum += wsum * (x/wsum - offset);
+            k -= x/wsum - offset;
+            pos = 0;
+        }
+        int ck = k;
+        while(ck--)
+        {
+            k = ck;
+            for(int i = n-1;i>=0;i--)
+            {
+                sum += v[i];
+                if(sum >= x)
+                {
+                    pos = i;
+                    ck = 0;
+                    break;
+                }
+            }
+        }
+        if(pos == -1)
+        {
+            cout << 0 << "\n";
+            continue;
+        }
+        cout << 1LL*n*k + pos + 1 << '\n';
+    }
+}
